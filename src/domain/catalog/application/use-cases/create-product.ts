@@ -6,6 +6,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ProductAlreadyExistsError } from './errors/product-already-exists-error'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface Request {
   title: string
@@ -20,6 +21,7 @@ type Response = Either<
   { product: Product }
 >
 
+@Injectable()
 export class CreateProductUseCase {
   constructor(
     private productsRepository: ProductsRepository,
