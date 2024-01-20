@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { CategoriesRepository } from '@/domain/catalog/application/repositories/categories-repository'
 import { Category } from '@/domain/catalog/enterprise/entities/category'
 
@@ -30,6 +31,8 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
 
   async create(category: Category) {
     this.items.push(category)
+
+    DomainEvents.dispatchEventsForAggregate(category.id)
   }
 
   async save(category: Category) {
@@ -38,6 +41,8 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
     })
 
     this.items[itemIndex] = category
+
+    DomainEvents.dispatchEventsForAggregate(category.id)
   }
 
   async delete(category: Category) {
@@ -46,5 +51,7 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
     })
 
     this.items.splice(itemIndex, 1)
+
+    DomainEvents.dispatchEventsForAggregate(category.id)
   }
 }

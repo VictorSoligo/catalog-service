@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { ProductsRepository } from '@/domain/catalog/application/repositories/products-repository'
 import { Product } from '@/domain/catalog/enterprise/entities/product'
 
@@ -30,6 +31,8 @@ export class InMemoryProductsRepository implements ProductsRepository {
 
   async create(product: Product) {
     this.items.push(product)
+
+    DomainEvents.dispatchEventsForAggregate(product.id)
   }
 
   async save(product: Product) {
@@ -38,6 +41,8 @@ export class InMemoryProductsRepository implements ProductsRepository {
     })
 
     this.items[itemIndex] = product
+
+    DomainEvents.dispatchEventsForAggregate(product.id)
   }
 
   async delete(product: Product) {
@@ -46,5 +51,7 @@ export class InMemoryProductsRepository implements ProductsRepository {
     })
 
     this.items.splice(itemIndex, 1)
+
+    DomainEvents.dispatchEventsForAggregate(product.id)
   }
 }

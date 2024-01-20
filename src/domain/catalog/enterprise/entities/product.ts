@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { CatalogProductsUpdatedEvent } from '../events/catalog-products-updated-event'
 
 export interface ProductProps {
   title: string
@@ -68,6 +69,12 @@ export class Product extends AggregateRoot<ProductProps> {
       { ...props, createdAt: props.createdAt ?? new Date() },
       id,
     )
+
+    const isNew = !id
+
+    if (isNew) {
+      product.addDomainEvent(new CatalogProductsUpdatedEvent(product))
+    }
 
     return product
   }
