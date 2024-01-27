@@ -29,6 +29,14 @@ export class InMemoryProductsRepository implements ProductsRepository {
     return product
   }
 
+  async findManyByOwnerId(ownerId: string) {
+    const products = this.items.filter((item) => {
+      return item.ownerId.toString() === ownerId
+    })
+
+    return products
+  }
+
   async create(product: Product) {
     this.items.push(product)
 

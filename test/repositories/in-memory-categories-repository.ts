@@ -29,6 +29,14 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
     return category
   }
 
+  async findManyByOwnerId(ownerId: string) {
+    const categories = this.items.filter((item) => {
+      return item.ownerId.toString() === ownerId
+    })
+
+    return categories
+  }
+
   async create(category: Category) {
     this.items.push(category)
 
