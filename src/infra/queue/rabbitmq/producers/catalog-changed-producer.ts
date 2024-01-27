@@ -24,7 +24,7 @@ export class CatalogChangedProducer implements EventHandler {
   }
 
   async produce({ ownerId }: { ownerId: string }) {
-    await this.amqpConnection.publish('catalog', 'changed', {
+    await this.amqpConnection.publish('catalog', 'emit', {
       ownerId,
     })
   }

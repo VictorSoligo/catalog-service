@@ -12,8 +12,8 @@ export class CatalogChangedConsumer {
 
   @RabbitRPC({
     exchange: 'catalog',
-    queue: 'owner-catalog-changed',
-    routingKey: 'changed',
+    queue: 'catalog-emit',
+    routingKey: 'emit',
   })
   async consume({ ownerId }: MessagePayload) {
     try {

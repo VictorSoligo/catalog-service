@@ -25,8 +25,8 @@ import { StorageModule } from '../storage/storage.module'
           queues: [
             {
               exchange: 'catalog',
-              name: 'owner-catalog-changed',
-              routingKey: 'changed',
+              name: 'catalog-emit',
+              routingKey: 'emit',
             },
           ],
         }
