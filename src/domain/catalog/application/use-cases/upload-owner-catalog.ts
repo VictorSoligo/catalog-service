@@ -3,6 +3,7 @@ import { Catalog } from '../../enterprise/entities/value-objects/catalog'
 import { CategoriesRepository } from '../repositories/categories-repository'
 import { ProductsRepository } from '../repositories/products-repository'
 import { Uploader } from '../storage/uploader'
+import { Injectable } from '@nestjs/common'
 
 interface Request {
   ownerId: string
@@ -10,6 +11,7 @@ interface Request {
 
 type Response = Either<null, { catalog: Catalog }>
 
+@Injectable()
 export class UploadOwnerCatalogUseCase {
   constructor(
     private categoriesRepository: CategoriesRepository,

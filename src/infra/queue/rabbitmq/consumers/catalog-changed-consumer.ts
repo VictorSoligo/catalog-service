@@ -1,4 +1,5 @@
-import { RabbitRPC } from '@golevelup/nestjs-rabbitmq'
+import { UploadOwnerCatalogUseCase } from '@/domain/catalog/application/use-cases/upload-owner-catalog'
+import { Nack, RabbitRPC } from '@golevelup/nestjs-rabbitmq'
 import { Injectable } from '@nestjs/common'
 
 interface MessagePayload {
@@ -7,12 +8,24 @@ interface MessagePayload {
 
 @Injectable()
 export class CatalogChangedConsumer {
+  constructor(private uploadOwnerCatalogUseCase: UploadOwnerCatalogUseCase) {}
+
   @RabbitRPC({
     exchange: 'catalog',
+    queue: 'owner-catalog-changed',
     routingKey: 'changed',
-    queue: 'catalog-changed',
   })
   async consume({ ownerId }: MessagePayload) {
-    console.log(ownerId)
+    try {
+      const result = await this.uploadOwnerCatalogUseCase.execute({
+        ownerId,
+      })
+
+      if (result.isLeft()) {
+        return new Nack()
+      }
+    } catch (error) {
+      return new Nack()
+    }
   }
 }

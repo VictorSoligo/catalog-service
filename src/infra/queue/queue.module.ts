@@ -4,6 +4,9 @@ import { EnvService } from '../env/env.service'
 import { EnvModule } from '../env/env.module'
 import { CatalogChangedProducer } from './rabbitmq/producers/catalog-changed-producer'
 import { CatalogChangedConsumer } from './rabbitmq/consumers/catalog-changed-consumer'
+import { UploadOwnerCatalogUseCase } from '@/domain/catalog/application/use-cases/upload-owner-catalog'
+import { DatabaseModule } from '../database/database.module'
+import { StorageModule } from '../storage/storage.module'
 
 @Module({
   imports: [
@@ -22,14 +25,20 @@ import { CatalogChangedConsumer } from './rabbitmq/consumers/catalog-changed-con
           queues: [
             {
               exchange: 'catalog',
-              name: 'catalog-changed',
+              name: 'owner-catalog-changed',
               routingKey: 'changed',
             },
           ],
         }
       },
     }),
+    DatabaseModule,
+    StorageModule,
   ],
-  providers: [CatalogChangedProducer, CatalogChangedConsumer],
+  providers: [
+    CatalogChangedProducer,
+    CatalogChangedConsumer,
+    UploadOwnerCatalogUseCase,
+  ],
 })
 export class QueueModule {}
