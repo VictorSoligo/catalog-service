@@ -14,5 +14,17 @@ services:
       - '3306'
     volumes:
       - database:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3.12.12-management
+    container_name: products-catalog-rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: docker
+      RABBITMQ_DEFAULT_PASS: docker
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
 volumes:
   database:
