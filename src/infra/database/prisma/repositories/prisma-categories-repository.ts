@@ -38,6 +38,16 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
     return PrismaCategoryMapper.toDomain(category)
   }
 
+  async findManyByOwnerId(ownerId: string) {
+    const categories = await this.prisma.category.findMany({
+      where: {
+        ownerId,
+      },
+    })
+
+    return categories.map(PrismaCategoryMapper.toDomain)
+  }
+
   async create(category: Category) {
     const data = PrismaCategoryMapper.toPersistence(category)
 

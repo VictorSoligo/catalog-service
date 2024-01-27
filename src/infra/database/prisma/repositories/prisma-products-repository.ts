@@ -38,6 +38,16 @@ export class PrismaProductsRepository implements ProductsRepository {
     return PrismaProductMapper.toDomain(product)
   }
 
+  async findManyByOwnerId(ownerId: string) {
+    const products = await this.prisma.product.findMany({
+      where: {
+        ownerId,
+      },
+    })
+
+    return products.map(PrismaProductMapper.toDomain)
+  }
+
   async create(product: Product) {
     const data = PrismaProductMapper.toPersistence(product)
 
