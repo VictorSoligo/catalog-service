@@ -24,6 +24,12 @@ export class Catalog extends ValueObject<CatalogProps> {
     return this.props.categories
   }
 
+  toJson() {
+    return JSON.stringify({
+      ...this.props,
+    })
+  }
+
   static create(props: CatalogProps) {
     const catalog = new Catalog(props)
 
