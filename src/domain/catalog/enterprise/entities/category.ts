@@ -46,6 +46,10 @@ export class Category extends AggregateRoot<CategoryProps> {
     this.props.updatedAt = new Date()
   }
 
+  delete() {
+    this.addDomainEvent(new CatalogCategoriesUpdatedEvent(this))
+  }
+
   static create(
     props: Optional<CategoryProps, 'createdAt'>,
     id?: UniqueEntityID,

@@ -16,7 +16,7 @@ const bodySchema = z.object({
   description: z.string(),
   ownerId: z.string(),
   title: z.string(),
-  categoryId: z.string(),
+  category_id: z.string(),
   price: z.number(),
 })
 
@@ -34,7 +34,7 @@ export class CreateProductController {
       description: body.description,
       ownerId: body.ownerId,
       title: body.title,
-      categoryId: body.categoryId,
+      categoryId: body.category_id,
       price: body.price,
     })
 
