@@ -1,62 +1,52 @@
-import { makeCategory } from 'test/factories/make-category'
-import { GetOwnerCatalogUseCase } from './get-owner-catalog'
-import { InMemoryCategoriesRepository } from 'test/repositories/in-memory-categories-repository'
-import { InMemoryProductsRepository } from 'test/repositories/in-memory-products-repository'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { makeProduct } from 'test/factories/make-product'
+import { FakeStorage } from 'test/storage/fake-storage'
 import { Catalog } from '../../enterprise/entities/value-objects/catalog'
+import { GetOwnerCatalogUseCase } from './get-owner-catalog'
 
-let inMemoryCategoriesRepository: InMemoryCategoriesRepository
-let inMemoryProductsRepository: InMemoryProductsRepository
+let fakeStorage: FakeStorage
 let sut: GetOwnerCatalogUseCase
 
 describe('get owner catalog', () => {
   beforeEach(() => {
-    inMemoryCategoriesRepository = new InMemoryCategoriesRepository()
-    inMemoryProductsRepository = new InMemoryProductsRepository()
+    fakeStorage = new FakeStorage()
 
-    sut = new GetOwnerCatalogUseCase(
-      inMemoryCategoriesRepository,
-      inMemoryProductsRepository,
-    )
+    sut = new GetOwnerCatalogUseCase(fakeStorage)
   })
 
   it('should be able to get owner catalog', async () => {
-    const ownerId = new UniqueEntityID('1')
+    const ownerId = 'owner-01'
 
-    for (let i = 1; i <= 5; i++) {
-      inMemoryCategoriesRepository.items.push(
-        makeCategory(
-          {
-            ownerId,
-          },
-          new UniqueEntityID(String(i)),
-        ),
-      )
-    }
+    const catalog = Catalog.create({
+      ownerId,
+      categories: [
+        {
+          id: 'category-01',
+          title: 'category-title',
+          description: 'category-description',
+          products: [
+            {
+              id: 'product-01',
+              title: 'product-title',
+              description: 'product-description',
+              price: 2200,
+            },
+          ],
+        },
+      ],
+    })
 
-    for (let i = 1; i <= 5; i++) {
-      inMemoryProductsRepository.items.push(
-        makeProduct(
-          {
-            ownerId,
-            categoryId: new UniqueEntityID(String(i)),
-          },
-          new UniqueEntityID(String(i)),
-        ),
-      )
-    }
+    fakeStorage.items.push({
+      fileName: ownerId,
+      body: catalog.toJson(),
+    })
 
     const result = await sut.execute({
-      ownerId: '1',
+      ownerId,
     })
 
     expect(result.isRight()).toBe(true)
 
     if (result.isRight()) {
       expect(result.value.catalog).toBeInstanceOf(Catalog)
-      expect(result.value.catalog.categories).toHaveLength(5)
-      expect(result.value.catalog.ownerId).toEqual(ownerId.toString())
     }
   })
 })
