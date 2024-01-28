@@ -13,6 +13,8 @@ import { DeleteProductUseCase } from '@/domain/catalog/application/use-cases/del
 import { DeleteProductController } from './controllers/delete-product.controller'
 import { EditCategoryUseCase } from '@/domain/catalog/application/use-cases/edit-category'
 import { EditCategoryController } from './controllers/edit-category.controller'
+import { EditProductUseCase } from '@/domain/catalog/application/use-cases/edit-product'
+import { EditProductController } from './controllers/edit-product.controller'
 
 @Module({
   imports: [DatabaseModule, StorageModule],
@@ -23,6 +25,7 @@ import { EditCategoryController } from './controllers/edit-category.controller'
     DeleteCategoryUseCase,
     DeleteProductUseCase,
     EditCategoryUseCase,
+    EditProductUseCase,
   ],
   controllers: [
     CreateCategoryController,
@@ -31,6 +34,7 @@ import { EditCategoryController } from './controllers/edit-category.controller'
     DeleteCategoryController,
     DeleteProductController,
     EditCategoryController,
+    EditProductController,
   ],
 })
 export class HttpModule {}
