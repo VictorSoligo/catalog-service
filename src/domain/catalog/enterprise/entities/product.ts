@@ -61,6 +61,10 @@ export class Product extends AggregateRoot<ProductProps> {
     this.props.updatedAt = new Date()
   }
 
+  delete() {
+    this.addDomainEvent(new CatalogProductsUpdatedEvent(this))
+  }
+
   static create(
     props: Optional<ProductProps, 'createdAt'>,
     id?: UniqueEntityID,

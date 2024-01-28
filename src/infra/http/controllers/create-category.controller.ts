@@ -5,7 +5,7 @@ import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 
 const bodySchema = z.object({
   description: z.string(),
-  ownerId: z.string(),
+  owner_id: z.string(),
   title: z.string(),
 })
 
@@ -21,7 +21,7 @@ export class CreateCategoryController {
   async handle(@Body(bodyValidationPipe) body: BodySchema) {
     const result = await this.createCategoryUseCase.execute({
       description: body.description,
-      ownerId: body.ownerId,
+      ownerId: body.owner_id,
       title: body.title,
     })
 

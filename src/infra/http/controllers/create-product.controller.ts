@@ -14,7 +14,7 @@ import { ProductAlreadyExistsError } from '@/domain/catalog/application/use-case
 
 const bodySchema = z.object({
   description: z.string(),
-  ownerId: z.string(),
+  owner_id: z.string(),
   title: z.string(),
   category_id: z.string(),
   price: z.number(),
@@ -32,7 +32,7 @@ export class CreateProductController {
   async handle(@Body(bodyValidationPipe) body: BodySchema) {
     const result = await this.createProductUseCase.execute({
       description: body.description,
-      ownerId: body.ownerId,
+      ownerId: body.owner_id,
       title: body.title,
       categoryId: body.category_id,
       price: body.price,

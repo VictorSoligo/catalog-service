@@ -9,6 +9,8 @@ import { GetOwnerCatalogController } from './controllers/get-owner-catalog.contr
 import { StorageModule } from '../storage/storage.module'
 import { DeleteCategoryUseCase } from '@/domain/catalog/application/use-cases/delete-category'
 import { DeleteCategoryController } from './controllers/delete-category.controller'
+import { DeleteProductUseCase } from '@/domain/catalog/application/use-cases/delete-product'
+import { DeleteProductController } from './controllers/delete-product.controller'
 
 @Module({
   imports: [DatabaseModule, StorageModule],
@@ -17,12 +19,14 @@ import { DeleteCategoryController } from './controllers/delete-category.controll
     CreateProductUseCase,
     GetOwnerCatalogUseCase,
     DeleteCategoryUseCase,
+    DeleteProductUseCase,
   ],
   controllers: [
     CreateCategoryController,
     CreateProductController,
     GetOwnerCatalogController,
     DeleteCategoryController,
+    DeleteProductController,
   ],
 })
 export class HttpModule {}
